@@ -1,6 +1,6 @@
 export default function () {
-    return function* _time(next, start = Date.now()) {
-        yield* next
-        this.set('X-Response-Time', `${Math.ceil(Date.now() - start)}ms`)
+    return async function _time(ctx, next, start = Date.now()) {
+        await next()
+        ctx.set('X-Response-Time', `${Math.ceil(Date.now() - start)}ms`)
     }
 }

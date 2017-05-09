@@ -10,16 +10,16 @@ const req = request.defaults({
 })
 
 test.before.cb((t) => {
-    let app = koa()
+    let app = new koa()
     
     app.use(time())
-    app.use(mount('/time', function *() {
-        function* wait() {
+    app.use(mount('/time', async function(ctx, next) {
+        async function wait() {
             return new Promise((resolve, reject) => setTimeout(resolve, 200))
         }
 
-        yield wait()
-        this.body = {}
+        await wait()
+        ctx.body = {}
     }))
     app.listen(3000, t.end)
 })
